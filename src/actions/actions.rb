@@ -14,41 +14,40 @@ module Actions
 
     private
     
-    def calc_next_position(state)
+    def self.calc_next_position(state)
+        curr_position = state.snake.positions.first
         case state.next_direction
-        when UP
+        when Model::Direction::UP
             # decrementar la fila
-            return new_positions = Model::Coord.new(
-                new_positions.row - 1,
-                new_positions.col
+            return Model::Coord.new(
+                curr_position.row - 1,
+                curr_position.col
             )
-        when RIGHT
+        when Model::Direction::RIGHT
             # incrementar columna
-            return new_positions = Model::Coord.new(
-                new_positions.row,
-                new_positions.col + 1
+            return Model::Coord.new(
+                curr_position.row,
+                curr_position.col + 1
             )
-        when DOWN
+        when Model::Direction::DOWN
             # incrementar la fila  
-            return new_positions = Model::Coord.new(
-                new_positions.row + 1,
-                new_positions.col
+            return Model::Coord.new(
+                curr_position.row + 1,
+                curr_position.col
             )
-        when LEFT
+        when Model::Direction::LEFT
             # decrementar columna
-            return new_positions = Model::Coord.new(
-                new_positions.row,
-                new_positions.col - 1
+            return curr_position = Model::Coord.new(
+                curr_position.row,
+                curr_position.col - 1
             )
         end
     end
 
-    def position_is_valid?(state, position)
+    def self.position_is_valid?(state, position)
         # Verificar que este en la grilla
-        is_invalid = ((position.row > state.grid.rows
-        || position.row < 0)
-        || (position.col >= state.grid.cols
-        || position.col < 0))
+        is_invalid = ((position.row > state.grid.rows || position.row < 0) ||
+            (position.col >= state.grid.cols || position.col < 0))
         # verificar que no este superponiendo a la serpiente
         
         return false if is_invalid
@@ -56,13 +55,13 @@ module Actions
         return !(state.snake.positions.include? position)
     end
 
-    def move_snake_to(state, next_position)
+    def self.move_snake_to(state, next_position)
         new_positions = [next_position] + state.snake.positions[0...-1]
         state.snake.positions = new_positions
         return state
     end
 
-    def end_game(state)
+    def self.end_game(state)
         state.game_over = true
         return state
     end
