@@ -19,7 +19,7 @@ class App
             #trigger movement
             @state = Actions::move_snake(@state)
             view.render(@state)
-            sleep 0.5
+            sleep 0.2
         end
     end
 
