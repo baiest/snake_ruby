@@ -32,7 +32,7 @@ module View
         private
 
         def render_food(state)
-            @food.remove if @remove
+            @food.remove if @food
             extend Ruby2D::DSL
             food = state.food
             @food = Square.new(
